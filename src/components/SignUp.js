@@ -15,6 +15,7 @@ import Container from '@material-ui/core/Container';
 import {Link as MyLink} from 'react-router-dom';
 import {connect} from 'react-redux';
 import {signingIn} from "./store/action/index"
+import {useHistory} from 'react-router-dom'
 
 function Copyright() {
   return (
@@ -48,22 +49,28 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
- function SignUp(props) {
+ const SignUp=(props)=>{
   const [firstName,setfirstName]=React.useState('')
   const [lastName,setlastName]=React.useState('')
   const [email,setemail]=React.useState('')
   const [password,setpassword]=React.useState('')
+  const History=useHistory()
   const classes = useStyles();
+  
 
-  console.log("THe redux is ",props)
+ 
 
   const check=(e)=>{
     e.preventDefault()
 
     props.signin({firstName,lastName,email,password})
 
-  }
 
+  }
+if(props.workingStatus==="USER_CREATED"){
+  console.log("the history is",History)
+  History.push("/Login")
+}
  
 
   return (

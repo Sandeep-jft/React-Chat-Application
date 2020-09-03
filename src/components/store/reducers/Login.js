@@ -11,6 +11,12 @@ export const signInReducer=(state=initialState,action)=>{
                 ...state,
                 status:action.status
             }
+            case "SUCCESS":
+            return{
+                ...state,
+                user:action.data,
+                status:"USER_CREATED"
+            }
         default:
             return state
             

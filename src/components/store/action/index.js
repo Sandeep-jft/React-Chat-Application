@@ -3,7 +3,7 @@ import axios from 'axios'
 export const signingIn=(userData)=>{
 
     console.log("The user data is ",userData);
-
+return(dispatch)=>{
     axios
       .post(
         "http://localhost:1337/signup",
@@ -17,10 +17,15 @@ export const signingIn=(userData)=>{
         }
       ).then(result=>{
           console.log("The result is ",result)
+         dispatch(signinsuccess(result.data.data))
       })
+    }
+    
+}
 
-    return {
-        type:"SIGNING_IN",
-        status:"SIGNING_IN"
+ const signinsuccess=(data)=>{
+    return{
+      type:"SUCCESS",
+      data:data
     }
 }
