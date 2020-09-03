@@ -12,7 +12,9 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-import {Link as MyLink} from 'react-router-dom'
+import {Link as MyLink} from 'react-router-dom';
+import {connect} from 'react-redux';
+import {signingIn} from "./store/action/index"
 
 function Copyright() {
   return (
@@ -46,17 +48,23 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function SignUp() {
+ function SignUp(props) {
   const [firstName,setfirstName]=React.useState('')
   const [lastName,setlastName]=React.useState('')
   const [email,setemail]=React.useState('')
   const [password,setpassword]=React.useState('')
   const classes = useStyles();
 
+  console.log("THe redux is ",props)
+
   const check=(e)=>{
     e.preventDefault()
-    console.log(firstName,lastName,email,password)
+
+    props.signin({firstName,lastName,email,password})
+
   }
+
+ 
 
   return (
     <Container component="main" maxWidth="xs">
@@ -155,3 +163,19 @@ export default function SignUp() {
     </Container>
   );
 }
+
+const mapStateToProps = state => {
+    console.log("The state is ",state.status)
+    return {
+      workingStatus:state.status
+    }
+  }
+
+const mapDispatchToPros=(dispatch)=>{
+    return{
+        signin:(userData)=>dispatch(signingIn(userData))
+        
+    }
+}
+
+export default connect(mapStateToProps,mapDispatchToPros)(SignUp)
