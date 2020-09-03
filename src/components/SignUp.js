@@ -47,7 +47,16 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function SignUp() {
+  const [firstName,setfirstName]=React.useState('')
+  const [lastName,setlastName]=React.useState('')
+  const [email,setemail]=React.useState('')
+  const [password,setpassword]=React.useState('')
   const classes = useStyles();
+
+  const check=(e)=>{
+    e.preventDefault()
+    console.log(firstName,lastName,email,password)
+  }
 
   return (
     <Container component="main" maxWidth="xs">
@@ -59,7 +68,7 @@ export default function SignUp() {
         <Typography component="h1" variant="h5">
           Sign up
         </Typography>
-        <form className={classes.form} noValidate>
+        <form className={classes.form} noValidate onSubmit={check}>
           <Grid container spacing={2}>
             <Grid item xs={12} sm={6}>
               <TextField
@@ -67,10 +76,12 @@ export default function SignUp() {
                 name="firstName"
                 variant="outlined"
                 required
+                value={firstName}
                 fullWidth
                 id="firstName"
                 label="First Name"
                 autoFocus
+                onChange={(e)=>setfirstName(e.target.value)}
               />
             </Grid>
             <Grid item xs={12} sm={6}>
@@ -79,9 +90,11 @@ export default function SignUp() {
                 required
                 fullWidth
                 id="lastName"
+                value={lastName}
                 label="Last Name"
                 name="lastName"
                 autoComplete="lname"
+                onChange={(e)=>setlastName(e.target.value)}
               />
             </Grid>
             <Grid item xs={12}>
@@ -93,6 +106,8 @@ export default function SignUp() {
                 label="Email Address"
                 name="email"
                 autoComplete="email"
+                value={email}
+                onChange={(e)=>setemail(e.target.value)}
               />
             </Grid>
             <Grid item xs={12}>
@@ -105,6 +120,8 @@ export default function SignUp() {
                 type="password"
                 id="password"
                 autoComplete="current-password"
+                value={password}
+                onChange={(e)=>setpassword(e.target.value)}
               />
             </Grid>
             <Grid item xs={12}>
