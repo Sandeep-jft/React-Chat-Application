@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{useEffect} from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -15,7 +15,8 @@ import Container from '@material-ui/core/Container';
 import {Link as MyLink} from 'react-router-dom';
 import {connect} from 'react-redux';
 import {signingIn} from "./store/action/index"
-import {useHistory} from 'react-router-dom'
+
+
 
 function Copyright() {
   return (
@@ -54,23 +55,23 @@ const useStyles = makeStyles((theme) => ({
   const [lastName,setlastName]=React.useState('')
   const [email,setemail]=React.useState('')
   const [password,setpassword]=React.useState('')
-  const History=useHistory()
-  const classes = useStyles();
-  
-
  
+  const classes = useStyles(); 
 
   const check=(e)=>{
     e.preventDefault()
 
     props.signin({firstName,lastName,email,password})
-
-
   }
-if(props.workingStatus==="USER_CREATED"){
-  console.log("the history is",History)
-  History.push("/Login")
-}
+      
+   
+
+    useEffect(() => {
+      if(props.workingStatus==="USER_CREATED"){
+        props.history.push("/Login")
+      }
+  
+    }, [props.workingStatus])
  
 
   return (
@@ -172,7 +173,6 @@ if(props.workingStatus==="USER_CREATED"){
 }
 
 const mapStateToProps = state => {
-    console.log("The state is ",state.status)
     return {
       workingStatus:state.status
     }

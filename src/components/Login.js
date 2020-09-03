@@ -12,7 +12,9 @@ import Grid from '@material-ui/core/Grid';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
-import {Link as MyLink} from 'react-router-dom'
+import {Link as MyLink} from 'react-router-dom';
+import {connect} from "react-redux";
+import {userLogin} from "./store/action/index"
 
 function Copyright() {
   return (
@@ -57,7 +59,17 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Login() {
+ function Login(props) {
+  
+  const [email,setEmail]=React.useState("");
+  const [password,setPassword]=React.useState("")
+
+  const handleLogin=(e)=>{
+    e.preventDefault();
+    props.submit({email,password})
+  }
+
+
   const classes = useStyles();
 
   return (
@@ -72,17 +84,19 @@ export default function Login() {
           <Typography component="h1" variant="h5">
             Sign in
           </Typography>
-          <form className={classes.form} noValidate>
+          <form className={classes.form} noValidate onSubmit={handleLogin}>
             <TextField
               variant="outlined"
               margin="normal"
               required
               fullWidth
               id="email"
+              value={email}
               label="Email Address"
               name="email"
               autoComplete="email"
               autoFocus
+              onChange={(e)=>setEmail(e.target.value)}
             />
             <TextField
               variant="outlined"
@@ -93,7 +107,9 @@ export default function Login() {
               label="Password"
               type="password"
               id="password"
+              value={password}
               autoComplete="current-password"
+              onChange={(e)=>setPassword(e.target.value)}
             />
             <FormControlLabel
               control={<Checkbox value="remember" color="primary" />}
@@ -129,3 +145,20 @@ export default function Login() {
     </Grid>
   );
 }
+
+
+
+const mapStateToProps = state => {
+  return {
+    workingStatus:state.status
+  }
+}
+
+const mapDispatchToPros=(dispatch)=>{
+  return{
+    submit:(userData)=>dispatch(userLogin(userData))
+      
+  }
+}
+
+export default connect(mapStateToProps,mapDispatchToPros)(Login)
